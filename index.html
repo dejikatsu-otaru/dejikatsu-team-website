@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="地域の困ったを、デジタルでちょっとラクに。デジ活チームの紹介サイトです。" />
+    <title>デジ活チーム | 地域をちょっとラクに</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .numbers{margin:0 clamp(24px,12vw,190px);padding:34px 0;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #d9d5c9;border-bottom:1px solid #d9d5c9}.numbers>div{padding:0 32px;border-left:1px solid #d9d5c9}.numbers>div:first-child{border-left:0;padding-left:0}.numbers strong{font:700 clamp(28px,3vw,43px) "DM Mono",monospace;letter-spacing:-.1em}.numbers strong span{color:var(--pink)}.numbers p{font-size:12px;color:#5c6872;margin:7px 0 0}.members{background:#eef9fc}.members-heading{display:grid;grid-template-columns:1fr 1fr;gap:30px}.members-heading>p:last-child{line-height:1.9;color:#425160;align-self:end;margin:0}.member-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:50px}.member-card{background:white;border-radius:16px;padding:28px;min-height:265px}.member-role{font:10px "DM Mono",monospace;color:#536c7a;letter-spacing:.06em}.member-card h3{font-size:24px;margin:22px 0 1px;letter-spacing:-.05em}.member-card .member-meta{font-size:12px;color:#657480;margin-bottom:20px}.member-card p:last-child{font-size:13px;line-height:1.9;margin:0;color:#425160}
+      @media(max-width:800px){.numbers{margin:0 24px;grid-template-columns:1fr;padding:15px 0}.numbers>div,.numbers>div:first-child{border-left:0;border-top:1px solid #d9d5c9;padding:14px 0}.numbers>div:first-child{border-top:0}.members-heading{grid-template-columns:1fr;gap:18px}.member-grid{grid-template-columns:1fr;margin-top:30px}.member-card{min-height:0}}
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="logo" href="#top" aria-label="デジ活チーム トップへ"><span class="logo-mark">D</span>デジ活チーム</a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span><span></span><span class="sr-only">メニューを開く</span>
+      </button>
+      <nav id="site-nav" class="site-nav" aria-label="メインナビゲーション">
+        <a href="#about">私たちについて</a>
+        <a href="#activities">活動紹介</a>
+        <a class="nav-contact" href="#contact">参加・お問い合わせ <span>↗</span></a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> OTARU, WITH DIGITAL</p>
+          <h1 id="hero-title">地域の困ったを、<br /><em>デジタルで</em><br />ちょっとラクに。</h1>
+          <p class="hero-text">あなたと創りたい、新しい町内会のカタチ。<br />小樽の地域と若者が、対等な仲間として未来を考えるチームです。</p>
+          <a class="button button-primary" href="#about">デジ活チームを知る <span>→</span></a>
+        </div>
+        <div class="hero-art" aria-label="デジタルを通じた地域のつながりを表すイラスト">
+          <div class="sticker sticker-chat">いいね！<span>✦</span></div>
+          <div class="sticker sticker-pin">地域の発見<br /><strong>+ 1</strong></div>
+          <div class="orb orb-yellow"></div><div class="orb orb-pink"></div><div class="orb orb-blue"></div>
+          <div class="phone">
+            <div class="phone-top"><span></span><span></span></div>
+            <div class="phone-screen">
+              <p>まちの<br /><b>おたすけ</b>ボード</p>
+              <div class="mini-card">イベント情報 <i>→</i></div>
+              <div class="mini-card yellow">野菜の直売所 <i>→</i></div>
+              <div class="profile p1">☺</div><div class="profile p2">★</div><div class="profile p3">♪</div>
+            </div>
+          </div>
+          <div class="spark spark-one">✦</div><div class="spark spark-two">✳</div>
+        </div>
+        <a class="scroll-hint" href="#about"><span></span> SCROLL TO DISCOVER</a>
+      </section>
+
+      <section id="about" class="intro section">
+        <div><p class="section-label">01 / ABOUT US</p><h2>町内会を、<br />もっと続けやすく。</h2></div>
+        <div class="intro-body">
+          <p>小樽市では、町内会役員の負担や担い手不足が課題になっています。デジ活チームは、町内会のやり方を見直しながら、デジタルの力も使ってその解決を目指しています。</p>
+          <p>町内会役員と、札幌学院大学の公認サークル「まちおこし研究会」を中心に、約40名が参加中。地域の知恵と若い感性をつなぎ、無理なく続けられる地域活動を育てます。</p>
+          <a class="text-link" href="#members">どんな人がいる？ <span>→</span></a>
+        </div>
+      </section>
+
+      <section class="numbers" aria-label="デジ活チームの概要">
+        <div><strong>40<span>+</span></strong><p>参加メンバー</p></div>
+        <div><strong>OTARU</strong><p>北海道・小樽市で活動中</p></div>
+        <div><strong>∞</strong><p>世代をこえた共創</p></div>
+      </section>
+
+      <section id="activities" class="activities section">
+        <div class="section-heading"><div><p class="section-label">02 / WHAT WE DO</p><h2>地域で、<br />一緒に動かす。</h2></div><p>「聞く」「考える」「続ける」。<br />地域の未来を、みんなで育てます。</p></div>
+        <div class="activity-grid">
+          <article class="activity-card card-pink"><span class="card-number">01</span><div class="card-icon">⌁</div><h3>声を聞く</h3><p>町内会役員や地域の人と対話し、業務の負担や担い手不足など、いま起きている困りごとを見つけます。</p><a href="#contact" aria-label="参加・お問い合わせへ">→</a></article>
+          <article class="activity-card card-yellow"><span class="card-number">02</span><div class="card-icon">✦</div><h3>一緒に考える</h3><p>デジタル活用だけに頼らず、これまでのやり方も見直しながら、地域に合う仕組みを企画します。</p><a href="#contact" aria-label="参加・お問い合わせへ">→</a></article>
+          <article class="activity-card card-blue"><span class="card-number">03</span><div class="card-icon">◎</div><h3>続けられる形にする</h3><p>若者と地域のベテランが知恵を出し合い、これからも続けやすい町内会の形をつくります。</p><a href="#contact" aria-label="参加・お問い合わせへ">→</a></article>
+        </div>
+      </section>
+
+      <section id="members" class="members section">
+        <div class="members-heading"><p class="section-label">03 / PEOPLE</p><h2>いろんな「得意」が、<br />チームになる。</h2><p>学生、デジタルサポーター、町内会の人。<br />立場をこえて、地域のこれからを話しています。</p></div>
+        <div class="member-grid">
+          <article class="member-card"><span class="member-role">STUDENT LEADER</span><h3>六反 一希</h3><p class="member-meta">札幌学院大学 2年</p><p>町内会を知らなかった自分のような人を減らしたい。まずは、チームが長く活動できる土台づくりに挑戦中です。</p></article>
+          <article class="member-card"><span class="member-role">DIGITAL SUPPORTER</span><h3>佐々木 蒼葉</h3><p class="member-meta">朋優学院高等学校 3年</p><p>デジタルネイティブ世代として、システムや制度づくりを支え、地域を小さな視点から元気にしたいです。</p></article>
+          <article class="member-card"><span class="member-role">LOCAL PARTNER</span><h3>佐々木 則子</h3><p class="member-meta">新潮町会 会長</p><p>地域のことは住んでいる人にしかわからない。若者と一緒に考え、もっと住みよい地域にしていきたいです。</p></article>
+        </div>
+      </section>
+
+      <section id="contact" class="contact section">
+        <p class="section-label">04 / JOIN US</p>
+        <h2>君の「得意」が、<br /><em>小樽の未来</em>をアップデートする。</h2>
+        <p>話を聞いてみたい。活動に協力したい。<br />あなたは「作業の手伝い」ではなく、地域を一緒につくる共創パートナーです。</p>
+        <a class="button button-dark" href="https://forms.gle/fnZUCycNAM5vnMNS9" target="_blank" rel="noopener">参加・お問い合わせ <span>↗</span></a>
+      </section>
+    </main>
+
+    <footer class="site-footer"><a class="logo" href="#top"><span class="logo-mark">D</span>デジ活チーム</a><p>地域の困ったを、デジタルでちょっとラクに。</p><small>© 2026 DIGIKATSU TEAM</small></footer>
+    <script src="script.js"></script>
+  </body>
+</html>
