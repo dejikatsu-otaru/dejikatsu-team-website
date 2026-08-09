@@ -14,13 +14,14 @@
     <link rel="stylesheet" href="mission-illustrations.css" />
     <link rel="stylesheet" href="vision-rebuild.css" />
     <link rel="stylesheet" href="vision-layout-v2.css" />
+    <link rel="stylesheet" href="activity-preview.css" />
   </head>
   <body>
     <header class="header">
       <a class="brand" href="#top"><span class="brand-mark">D</span><span>デジ活チーム<small>DIGIKATSU TEAM / OTARU</small></span></a>
       <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span><span class="sr-only">メニューを開く</span></button>
       <nav id="site-nav" class="nav" aria-label="メインナビゲーション">
-        <a href="about.html">デジ活チームとは</a><a href="#missions">活動紹介</a><a href="#members">メンバー</a>
+        <a href="about.html">デジ活チームとは</a><a href="activity.html">活動紹介</a><a href="#members">メンバー</a>
         <button class="font-control" type="button" aria-pressed="false">文字を大きく</button>
         <a class="nav-cta" href="#join">参加する <span>→</span></a>
       </nav>
@@ -32,6 +33,20 @@
         <div class="hero-shade"></div>
         <div class="hero-content"><p class="hero-label">OTARU COMMUNITY UPDATE PROJECT</p><h1>君の感性が、<br /><em>小樽の未来</em>を<br />アップデートする。</h1><p class="hero-sub">「手伝い」から「共創」へ。<br />デジタルを触媒に、多世代で創る新しい町内会のカタチ。</p><div class="hero-actions"><a class="button button-orange" href="#join">共創パートナーになる <span>→</span></a><a class="hero-link" href="#vision">まずは知ってみる <span>↓</span></a></div></div>
         <p class="hero-credit">ILLUSTRATION / DIGIKATSU TEAM</p>
+      </section>
+
+      <section class="latest-news" aria-labelledby="latest-news-title">
+        <div class="news-heading"><div><p class="eyebrow">LATEST NEWS</p><h2 id="latest-news-title">新着情報</h2></div><a href="activity.html">活動紹介をすべて見る <span>→</span></a></div>
+        <div class="news-carousel" data-news-carousel>
+          <button class="news-arrow news-prev" type="button" aria-label="過去の活動情報を見る" data-news-prev>←<span>過去へ</span></button>
+          <div class="news-viewport"><div class="news-track">
+            <a class="news-card" href="activity.html#activity-20260302"><img src="assets/vision-aging-challenge.png" alt="地域の課題を考える様子のイラスト" /><div><time datetime="2026-03-02">2026.03.02</time><p>デジ活チーム、始動。町内会を次の世代へつなぐ挑戦</p><span>詳しく見る →</span></div></a>
+            <a class="news-card" href="activity.html#activity-20260306"><img src="assets/youth-co-creation.png" alt="学生と地域の人が話し合うイラスト" /><div><time datetime="2026-03-06">2026.03.06</time><p>若者を「手伝い」ではなく、共創パートナーへ</p><span>詳しく見る →</span></div></a>
+            <a class="news-card" href="activity.html#activity-20260308"><img src="assets/town-association-guide.png" alt="町内会まるわかりシート" /><div><time datetime="2026-03-08">2026.03.08</time><p>見える・関わる・楽になる。3つの行動指針</p><span>詳しく見る →</span></div></a>
+            <a class="news-card" href="activity.html#activity-20260414"><img src="assets/mission-digital.png" alt="デジタルを使って地域の人と交流するイラスト" /><div><time datetime="2026-04-14">2026.04.14</time><p>高価な機材なしで始める、無理のないデジタル化</p><span>詳しく見る →</span></div></a>
+          </div></div>
+          <button class="news-arrow news-next" type="button" aria-label="新しい活動情報を見る" data-news-next><span>新しい情報へ</span>→</button>
+        </div>
       </section>
 
       <section id="vision" class="vision section">
