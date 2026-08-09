@@ -1,0 +1,14 @@
+.member-grid{grid-template-columns:repeat(4,1fr)}
+.member .portrait{height:180px!important;min-height:180px;max-height:180px;overflow:hidden;position:relative;background:#dfeceb}
+.member .portrait img{position:absolute;inset:0;display:block;width:100%!important;height:100%!important;object-fit:contain;object-position:center;background:#eef2ef}
+@media(min-width:1101px){.member-body{padding:16px!important}.member h3{font-size:20px}.member dd{font-size:11px;line-height:1.65}}
+@media(max-width:1100px){.member-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:850px){.member-grid{grid-template-columns:1fr}.member .portrait{height:210px!important;min-height:210px;max-height:210px}}
+
+/* メンバー紹介：見出しを左、説明文を右下に配置 */
+@media(min-width:851px){
+  .members-intro{grid-template-columns:1fr 1fr;grid-template-areas:"eyebrow blank" "title copy";column-gap:clamp(55px,9vw,150px);row-gap:38px;align-items:end}
+  .members-intro>.eyebrow{grid-area:eyebrow;margin:0}
+  .members-intro>h2{grid-area:title;margin:0}
+  .members-intro>p:last-child{grid-area:copy;margin:0 0 4px;max-width:410px}
+}

@@ -1,0 +1,8 @@
+.mission-card{min-height:550px}
+.mission-card .mission-icon{display:none}
+.mission-card:before{content:"";position:absolute;top:76px;left:27px;right:27px;height:160px;border-radius:12px;background-color:#fffdf7;background-position:center;background-size:contain;background-repeat:no-repeat}
+.mission-card.design:before{background-image:url("assets/mission-design.png")}
+.mission-card.sns:before{background-image:url("assets/mission-sns.png")}
+.mission-card.digital:before{background-image:url("assets/mission-digital.png")}
+.mission-card h3{margin-top:225px}
+@media(max-width:850px){.mission-card{min-height:485px}.mission-card:before{top:70px;height:150px}.mission-card h3{margin-top:205px}}
