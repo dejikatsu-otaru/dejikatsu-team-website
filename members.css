@@ -12,3 +12,10 @@
   .members-intro>h2{grid-area:title;margin:0}
   .members-intro>p:last-child{grid-area:copy;margin:0 0 4px;max-width:410px}
 }
+
+/* 4人共通のプロフィール欄を、年齢を問わず読みやすい文字サイズにする */
+.member .affiliation{font-size:15px;line-height:1.7}
+.member dl>div{padding-top:14px;margin-top:13px}
+.member dt{font-size:13px;margin-bottom:6px}
+.member dd{font-size:15px;line-height:1.85}
+@media(min-width:1101px){.member .affiliation{font-size:14px}.member dt{font-size:12px}.member dd{font-size:13px;line-height:1.8}}

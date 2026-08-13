@@ -13,3 +13,11 @@
 
 /* PCでは説明を左、課題イラストを右に配置する */
 @media(min-width:901px){.vision .section-intro{grid-column:1}.vision .vision-content{grid-column:1}.vision .everyday{grid-column:2}}
+
+/* 課題イラスト上の数値は、見出しと分けて大きく表示する */
+.vision .everyday:before,.vision .everyday:after{content:""!important}
+.vision-stat-label{position:absolute;z-index:2;right:22px;width:58%;margin:0;color:var(--orange);font-size:clamp(20px,1.65vw,30px);font-weight:900;line-height:1.18;text-align:right;text-shadow:0 1px 0 #fff}
+.vision-stat-label strong{display:block;margin-top:4px;font:900 clamp(40px,3.5vw,62px)/.95 Georgia,serif;letter-spacing:-.06em;color:var(--orange)}
+.vision-stat-aging{top:24%;transform:translateY(-50%)}
+.vision-stat-membership{bottom:24%;transform:translateY(50%)}
+@media(max-width:900px){.vision-stat-label{right:16px;font-size:17px}.vision-stat-label strong{font-size:42px}.vision-stat-aging{top:25%}.vision-stat-membership{bottom:25%}}
