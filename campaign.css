@@ -10,3 +10,7 @@
 .benefits h3{font-size:24px;line-height:1.25;margin-bottom:9px}
 .benefits p{font-size:14px;line-height:1.85}
 @media(max-width:850px){.winwin-visual{margin-top:28px}.benefits>div{padding:24px 22px 24px 64px;min-height:0}.benefits h3{font-size:22px}}
+
+/* ヒーローの末尾フレーズを途中で折り返さない */
+.hero-nowrap{white-space:nowrap}
+@media(max-width:850px){.hero h1{font-size:clamp(32px,10vw,45px)}}
