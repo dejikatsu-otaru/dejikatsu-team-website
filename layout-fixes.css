@@ -1,5 +1,8 @@
 .vision .section-intro h2 span{white-space:nowrap}
 .winwin h2{white-space:nowrap}
+.heading-nowrap{white-space:nowrap}
+.section h2 .heading-default{color:var(--navy)}
+.section h2 .heading-default>span{color:var(--green)}
 .hero{height:auto;min-height:800px}
 .vision .section-intro h2{font-size:clamp(40px,3vw,50px);white-space:nowrap;letter-spacing:-.08em}
 @media(max-width:900px){
