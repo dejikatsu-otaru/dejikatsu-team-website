@@ -21,7 +21,7 @@ if (fontControl) {
   fontControl.addEventListener('click', () => {
     const isLarge = document.body.classList.toggle('large-text');
     fontControl.setAttribute('aria-pressed', String(isLarge));
-    fontControl.textContent = isLarge ? '文字を標準に戻す' : '文字を大きく';
+    fontControl.textContent = isLarge ? '文字を標準に戻す' : '文字を大きくする';
   });
 }
 

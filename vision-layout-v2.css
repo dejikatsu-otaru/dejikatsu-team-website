@@ -21,3 +21,4 @@
 .vision-stat-aging{top:24%;transform:translateY(-50%)}
 .vision-stat-membership{bottom:24%;transform:translateY(50%)}
 @media(max-width:900px){.vision-stat-label{right:16px;font-size:17px}.vision-stat-label strong{font-size:42px}.vision-stat-aging{top:25%}.vision-stat-membership{bottom:25%}}
+.vision .vision-lead,.vision .vision-content>p:last-child,.vision-role p{font-size:var(--readable-font-size)!important}

@@ -15,3 +15,5 @@
 .hero-nowrap{white-space:nowrap}
 @media(max-width:850px){.hero h1{font-size:clamp(32px,10vw,45px)}}
 .site-logo{display:block;width:58px;height:58px;object-fit:contain}.footer .site-logo{width:64px;height:64px}
+/* 文字サイズ切り替え：見出し以外の案内・本文を共通サイズで表示する */
+:root{--readable-font-size:16px}body.large-text{--readable-font-size:20px}.nav,.font-control,.nav-cta,.hero-sub,.hero-link,.vision-content p,.mission-heading>p,.mission-card p,.mission-card li,.winwin-copy>p:last-child,.benefits p,.guide-copy p,.members-intro>p:last-child,.member .affiliation,.member dt,.member dd,.photo-note,.join-content>p:not(.eyebrow):not(.line-notice),.join-tags span,.line-notice,.footer p,.footer small,.footer>div,.button,.download-link{font-size:var(--readable-font-size)!important}.button span{font-size:1.25em}.mission-card li,.join-tags span{line-height:1.5}.footer>div{line-height:1.6}
