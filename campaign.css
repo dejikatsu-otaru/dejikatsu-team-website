@@ -15,5 +15,27 @@
 .hero-nowrap{white-space:nowrap}
 @media(max-width:850px){.hero h1{font-size:clamp(32px,10vw,45px)}}
 .site-logo{display:block;width:58px;height:58px;object-fit:contain}.footer .site-logo{width:64px;height:64px}
+.brand-domain{color:var(--navy);font-size:18px;font-weight:900;letter-spacing:.01em;line-height:1}
+@media(max-width:850px){.brand-domain{font-size:15px}}
 /* 文字サイズ切り替え：見出し以外の案内・本文を共通サイズで表示する */
 :root{--readable-font-size:16px}body.large-text{--readable-font-size:20px}.nav,.font-control,.nav-cta,.hero-sub,.hero-link,.vision-content p,.mission-heading>p,.mission-card p,.mission-card li,.winwin-copy>p:last-child,.benefits p,.guide-copy p,.members-intro>p:last-child,.member .affiliation,.member dt,.member dd,.photo-note,.join-content>p:not(.eyebrow):not(.line-notice),.join-tags span,.line-notice,.footer p,.footer small,.footer>div,.button,.download-link{font-size:var(--readable-font-size)!important}.button span{font-size:1.25em}.mission-card li,.join-tags span{line-height:1.5}.footer>div{line-height:1.6}
+
+/* スマホで回覧板を作れる「まちの新聞づくり」の紹介 */
+.newspaper{display:grid;grid-template-columns:1fr .9fr;gap:clamp(50px,7vw,110px);align-items:center;background:#fff6e6;overflow:hidden}
+.newspaper-copy{max-width:600px}
+.newspaper-label{display:inline-flex;align-items:center;gap:10px;margin:18px 0 0;color:#18533f;font-weight:800;font-size:14px}
+.newspaper-label span{display:inline-grid;place-items:center;min-width:48px;padding:6px 10px;border-radius:99px;background:#92291c;color:white;font-size:12px;letter-spacing:.08em}
+.newspaper h2{margin-top:15px}
+.newspaper-copy>p:not(.eyebrow){max-width:570px;color:#405563;font-size:15px;line-height:2}
+.newspaper-copy strong{color:#18533f}
+.newspaper-actions{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:28px}
+.button-newspaper{background:#185a43;color:white}
+.newspaper-sample{font-size:14px;font-weight:800;border-bottom:1px solid currentColor;padding-bottom:4px;color:var(--navy)}
+.newspaper-visual{margin:0;position:relative}
+.newspaper-visual:before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:#f2c880;right:-100px;top:12%;opacity:.5}
+.newspaper-phone{position:relative;width:min(100%,390px);height:590px;margin:auto;border:10px solid #263b35;border-radius:42px;overflow:hidden;background:#f4f0e7;box-shadow:18px 22px 0 rgba(24,90,67,.17)}
+.newspaper-phone:before{content:"";position:absolute;z-index:2;top:10px;left:50%;width:90px;height:20px;border-radius:20px;background:#263b35;transform:translateX(-50%)}
+.newspaper-phone img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
+.newspaper-visual figcaption{position:relative;margin:26px auto 0;max-width:390px;color:#526777;font-size:12px;text-align:center}
+body.large-text .newspaper-copy>p:not(.eyebrow),body.large-text .newspaper-sample{font-size:var(--readable-font-size)}
+@media(max-width:850px){.newspaper{grid-template-columns:1fr;gap:45px}.newspaper-label{margin-top:14px}.newspaper-copy>p:not(.eyebrow){font-size:14px}.newspaper-actions{align-items:flex-start;flex-direction:column}.newspaper-phone{height:min(140vw,590px);width:min(92%,390px);border-radius:34px}.newspaper-visual:before{width:330px;height:330px;right:-120px}}

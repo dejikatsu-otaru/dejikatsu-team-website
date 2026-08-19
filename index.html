@@ -19,7 +19,7 @@
   </head>
   <body>
     <header class="header">
-      <a class="brand" href="#top"><img class="site-logo" src="assets/dejikatsu-logo-cutout.png" alt="デジ活チーム" /></a>
+      <a class="brand header-brand" href="#top"><img class="site-logo" src="assets/dejikatsu-logo-cutout.png" alt="デジ活チーム" /><span class="brand-domain">dejikatu.com</span></a>
       <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span><span class="sr-only">メニューを開く</span></button>
       <nav id="site-nav" class="nav" aria-label="メインナビゲーション">
         <a href="about.html">デジ活チームとは</a><a href="activity.html">活動紹介</a><a href="#members">メンバー</a>
@@ -39,14 +39,14 @@
       <section class="latest-news" aria-labelledby="latest-news-title">
         <div class="news-heading"><div><p class="eyebrow">LATEST NEWS</p><h2 id="latest-news-title">新着情報</h2></div><a href="activity.html">活動紹介をすべて見る <span>→</span></a></div>
         <div class="news-carousel" data-news-carousel>
-          <button class="news-arrow news-prev" type="button" aria-label="過去の活動情報を見る" data-news-prev>←<span>過去へ</span></button>
+          <button class="news-arrow news-prev" type="button" aria-label="最新の活動情報を見る" data-news-prev>←<span>最新へ</span></button>
           <div class="news-viewport"><div class="news-track">
             <a class="news-card" href="activity.html#activity-digital-course"><img src="assets/activity-digital-course.png" alt="町会活動デジタル化支援講座の様子" /><div><time datetime="2026-08-19">2026.08.19</time><p>町会活動デジタル化支援講座<br />参加者募集</p><span>詳しく見る →</span></div></a>
             <a class="news-card" href="activity.html#activity-workshop"><img src="assets/activity-workshop.png" alt="地域と若者が話し合うワークショップの様子" /><div><time datetime="2026-08-19">2026.08.19</time><p>第２回地域と若者が創る新しい<br />町内会のカタチ参加者募集</p><span>詳しく見る →</span></div></a>
             <a class="news-card" href="activity.html#activity-town-news"><img src="assets/activity-town-news.png" alt="まちの新聞づくりの画面" /><div><time datetime="2026-08-19">2026.08.19</time><p>「まちの新聞づくり」を<br />リリースしました</p><span>詳しく見る →</span></div></a>
             <a class="news-card" href="activity.html#activity-town-guide"><img src="assets/activity-town-guide.png" alt="町内会まるわかりシート" /><div><time datetime="2026-08-19">2026.08.19</time><p>「町内会まるわかりシート」を<br />リリースしました</p><span>詳しく見る →</span></div></a>
           </div></div>
-          <button class="news-arrow news-next" type="button" aria-label="新しい活動情報を見る" data-news-next><span>新しい情報へ</span>→</button>
+          <button class="news-arrow news-next" type="button" aria-label="過去の活動情報を見る" data-news-next><span>過去へ</span>→</button>
         </div>
       </section>
 
@@ -63,12 +63,24 @@
 
       <section class="guide section"><div class="guide-copy"><p class="eyebrow">03 / MAKE IT CLEAR</p><h2>町内会を、<br /><span class="heading-nowrap">もっと「わかる」へ。</span></h2><p>「何をしているの？」「会費は何に使われるの？」——そんな疑問を、やさしいイラストとことばで見える化するのが<strong>町内会まるわかりシート</strong>です。</p><p>情報を開くことは、地域への信頼を育てること。ブラックボックスをなくし、住民が参加しやすい町内会を目指します。</p><a class="button button-blue" href="assets/town-association-guide.png" target="_blank" rel="noopener">シートを大きく見る <span>↗</span></a><a class="download-link" href="assets/町内会まるわかりシート（共通版）.pdf" download>PDFをダウンロード <span>↓</span></a></div><div class="guide-image-wrap"><div class="tape">SAMPLE</div><img src="assets/town-association-guide.png" alt="町内会の活動や会費、年間イベントを説明する町内会まるわかりシート" /></div></section>
 
+      <section class="newspaper section" aria-labelledby="newspaper-title">
+        <div class="newspaper-copy">
+          <p class="eyebrow">FEATURE / MAKE NEWS EASIER</p>
+          <div class="newspaper-label"><span>β版</span> スマホで回覧板づくり</div>
+          <h2 id="newspaper-title">伝えるを、<br /><span>もっと「かんたん」へ。</span></h2>
+          <p>スマホで記事と写真を入力すると、回覧板をPDFファイルとして生成。そのままLINEに投稿することもできるアプリ<strong>「まちの新聞づくり」</strong>です。</p>
+          <p>高齢の役員にも使いやすい画面を目指し、回覧板の作成から配信までの業務負担を大きく減らします。現在はβ版で運用中。利用者からのご意見を参考に、今後もアップデートを続ける予定です。</p>
+          <div class="newspaper-actions"><a class="button button-newspaper" href="https://machi-shinbun.com/" target="_blank" rel="noopener">利用はこちらから <span>↗</span></a><a class="newspaper-sample" href="assets/新潮町会だより.pdf" target="_blank" rel="noopener">サンプルを見る「新潮町会だより」 <span>↗</span></a></div>
+        </div>
+        <figure class="newspaper-visual"><div class="newspaper-phone"><img src="assets/machi-shinbun-app.jpg" alt="スマホで町内会のお知らせを作成できる、まちの新聞づくりの画面" /></div><figcaption>記事と写真を入力して、読みやすい回覧板をPDFに。</figcaption></figure>
+      </section>
+
       <section id="members" class="members section"><div class="members-intro"><p class="eyebrow">04 / OUR PEOPLE</p><h2>推したくなるのは、<br /><span class="heading-nowrap heading-default">人と<span>ストーリー</span>。</span></h2><p>学生、デジタルサポーター、町内会の人。立場を超えた仲間が、それぞれの「なぜ？」を持って集まっています。</p></div><div class="member-grid"><article class="member"><div class="portrait"><img src="assets/member-mutsutan-kazuki.jpg" alt="六反一希さんの写真" /></div><div class="member-body"><p class="role">STUDENT LEADER</p><h3>六反 一希</h3><p class="affiliation">札幌学院大学 2年</p><dl><div><dt>参加理由</dt><dd>町内会を知らなかった自分のような人を、一人でも減らしたい。</dd></div><div><dt>今の挑戦</dt><dd>チームが長く活動できる、初年度の土台づくり。</dd></div></dl></div></article><article class="member"><div class="portrait"><img src="assets/member-takahashi-sota.jpg" alt="高橋桜太さんの写真" /></div><div class="member-body"><p class="role">STUDENT SUB-LEADER</p><h3>高橋 桜太</h3><p class="affiliation">北星学園大学 3年</p><dl><div><dt>参加理由</dt><dd>幅広い世代の価値観や感性が交わり、地域に新しい可能性が生まれることに惹かれました。</dd></div><div><dt>今の挑戦</dt><dd>地域の人が本当に求めているものを、さまざまな視点から少しずつ形にすること。</dd></div></dl></div></article><article class="member"><div class="portrait"><img src="assets/member-sasaki-aoha.jpg" alt="佐々木蒼葉さんの写真" /></div><div class="member-body"><p class="role">DIGITAL SUPPORTER</p><h3>佐々木 蒼葉</h3><p class="affiliation">朋優学院高等学校 3年</p><dl><div><dt>実現したいこと</dt><dd>デジタルネイティブ世代の力で、持続可能な制度づくりを支えたい。</dd></div><div><dt>目標</dt><dd>地方社会をミクロな視点から活性化する。</dd></div></dl></div></article><article class="member"><div class="portrait"><img src="assets/member-sasaki-noriko.jpg" alt="佐々木則子さんの写真" /></div><div class="member-body"><p class="role">LOCAL PARTNER</p><h3>佐々木 則子</h3><p class="affiliation">新潮町会 会長</p><dl><div><dt>参加理由</dt><dd>住んでいる人にしかわからない地域の課題を、若者と一緒に考えたい。</dd></div><div><dt>期待すること</dt><dd>より住みよい地域へ向け、課題解決を話し合うこと。</dd></div></dl></div></article></div></section>
 
       <section id="join" class="join"><div class="join-orb orb-one"></div><div class="join-orb orb-two"></div><div class="join-content"><p class="eyebrow">JOIN THE PROJECT</p><h2>まずは、<br /><span>「ちょっと気になる」</span>から。</h2><p>一回だけでもOK。見学からでもOK。自宅でできることからでもOK。<br />あなたのペースで、小樽の未来に参加してみませんか？</p><div class="join-tags"><span>1回だけOK</span><span>まずは見学から</span><span>自宅作業歓迎</span></div><div class="join-actions"><a class="button button-line disabled" href="#line-notice" aria-disabled="true"><b>LINE</b> 公式アカウント（準備中）</a><a class="button button-orange" href="https://forms.gle/fnZUCycNAM5vnMNS9" target="_blank" rel="noopener">Googleフォームで参加する <span>→</span></a></div><p id="line-notice" class="line-notice">LINE公式アカウントのURLが決まり次第、このボタンを接続できます。</p></div></section>
     </main>
 
-    <footer class="footer"><a class="brand" href="#top"><img class="site-logo" src="assets/dejikatsu-logo-cutout.png" alt="デジ活チーム" /></a><p>デジタルを架け橋に、次の世代へつながる地域コミュニティを。</p><div><a href="about.html">デジ活チームとは</a><a href="#missions">活動紹介</a><a href="#join">参加・お問い合わせ</a></div><small>© 2026 DIGIKATSU TEAM</small></footer>
+    <footer class="footer"><a class="brand" href="#top"><img class="site-logo" src="assets/dejikatsu-logo-cutout.png" alt="デジ活チーム" /></a><p>デジタルを架け橋に、次の世代へつながる地域コミュニティを。</p><div><a href="about.html">デジ活チームとは</a><a href="activity.html">活動紹介</a><a href="#join">参加・お問い合わせ</a></div><small>@ 2026 DEJIKATU TEAM</small></footer>
     <script src="script.js"></script>
   </body>
 </html>
