@@ -19,6 +19,7 @@
 @media(max-width:850px){.brand-domain{font-size:15px}}
 /* 文字サイズ切り替え：見出し以外の案内・本文を共通サイズで表示する */
 :root{--readable-font-size:16px}body.large-text{--readable-font-size:20px}.nav,.font-control,.nav-cta,.hero-sub,.hero-link,.vision-content p,.mission-heading>p,.mission-card p,.mission-card li,.winwin-copy>p:last-child,.benefits p,.guide-copy p,.members-intro>p:last-child,.member .affiliation,.member dt,.member dd,.photo-note,.join-content>p:not(.eyebrow):not(.line-notice),.join-tags span,.line-notice,.footer p,.footer small,.footer>div,.button,.download-link{font-size:var(--readable-font-size)!important}.button span{font-size:1.25em}.mission-card li,.join-tags span{line-height:1.5}.footer>div{line-height:1.6}
+.hero-actions .button,.hero-actions .hero-link{flex:none;white-space:nowrap}.hero-actions .hero-link span{margin:0 7px 0 0}
 
 /* スマホで回覧板を作れる「まちの新聞づくり」の紹介 */
 .newspaper{display:grid;grid-template-columns:1fr .9fr;gap:clamp(50px,7vw,110px);align-items:center;background:#fff6e6;overflow:hidden}
@@ -39,3 +40,4 @@
 .newspaper-visual figcaption{position:relative;margin:26px auto 0;max-width:390px;color:#526777;font-size:12px;text-align:center}
 body.large-text .newspaper-copy>p:not(.eyebrow),body.large-text .newspaper-sample{font-size:var(--readable-font-size)}
 @media(max-width:850px){.newspaper{grid-template-columns:1fr;gap:45px}.newspaper-label{margin-top:14px}.newspaper-copy>p:not(.eyebrow){font-size:14px}.newspaper-actions{align-items:flex-start;flex-direction:column}.newspaper-phone{height:min(140vw,590px);width:min(92%,390px);border-radius:34px}.newspaper-visual:before{width:330px;height:330px;right:-120px}}
+.newspaper h2 span{white-space:nowrap}@media(max-width:600px){.newspaper h2{font-size:clamp(34px,8.8vw,46px);letter-spacing:-.08em}}
