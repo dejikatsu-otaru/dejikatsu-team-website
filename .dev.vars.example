@@ -1,0 +1,6 @@
+# ローカル開発専用。32 bytes 以上のランダム値を設定し、.dev.vars はコミットしないでください。
+CMS_BOOTSTRAP_TOKEN=replace-with-a-password-manager-generated-random-token
+CMS_PASSWORD_PEPPER=replace-with-an-independent-32-byte-or-longer-random-secret
+CMS_AUTH_CHALLENGE_KEY=replace-with-another-independent-32-byte-or-longer-random-secret
+# Rotation時だけ、直前のCMS_PASSWORD_PEPPERを一時的に設定します。
+# CMS_PASSWORD_PEPPER_PREVIOUS=replace-with-the-previous-pepper-during-rotation-only

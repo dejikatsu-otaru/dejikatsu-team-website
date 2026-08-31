@@ -1,0 +1,31 @@
+{
+  "name": "dejikatsu-team-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "npm run build && wrangler pages dev dist",
+    "types": "wrangler types --env-interface CloudflareBindings functions/env.d.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:migrate:local": "wrangler d1 migrations apply CMS_DB --local",
+    "db:list:local": "wrangler d1 migrations list CMS_DB --local"
+  },
+  "dependencies": {
+    "marked": "18.0.11",
+    "sanitize-html": "2.17.7"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "1.1.2",
+    "@types/node": "26.4.0",
+    "@types/sanitize-html": "2.16.1",
+    "typescript": "7.0.2",
+    "vitest": "4.1.11",
+    "wrangler": "4.127.1"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

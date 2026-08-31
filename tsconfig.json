@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023", "WebWorker"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "allowJs": false,
+    "types": ["node", "@cloudflare/vitest-plugin/types"]
+  },
+  "include": ["functions/**/*.ts", "tests/**/*.ts", "functions/env.d.ts"]
+}

@@ -25,12 +25,15 @@ if (fontControl) {
   });
 }
 
-// トップページの新着情報：カードを増やしても自動でスライド対象になります。
-document.querySelectorAll('[data-news-carousel]').forEach((carousel) => {
+// トップページの新着情報：CMSで差し替わった後も再初期化できます。
+const newsCarouselCleanup = new WeakMap();
+window.initializeNewsCarousels = () => document.querySelectorAll('[data-news-carousel]').forEach((carousel) => {
+  newsCarouselCleanup.get(carousel)?.();
   const track = carousel.querySelector('.news-track');
-  const cards = Array.from(track.querySelectorAll('.news-card'));
   const previous = carousel.querySelector('[data-news-prev]');
   const next = carousel.querySelector('[data-news-next]');
+  if (!track || !previous || !next) return;
+  const cards = Array.from(track.querySelectorAll('.news-card'));
   let currentIndex = 0;
 
   const visibleCards = () => (window.innerWidth <= 700 ? 1 : window.innerWidth <= 1100 ? 2 : 3);
@@ -44,8 +47,16 @@ document.querySelectorAll('[data-news-carousel]').forEach((carousel) => {
     next.disabled = currentIndex === maxIndex;
   };
 
-  previous.addEventListener('click', () => { currentIndex -= 1; render(); });
-  next.addEventListener('click', () => { currentIndex += 1; render(); });
+  const onPrevious = () => { currentIndex -= 1; render(); };
+  const onNext = () => { currentIndex += 1; render(); };
+  previous.addEventListener('click', onPrevious);
+  next.addEventListener('click', onNext);
   window.addEventListener('resize', render);
+  newsCarouselCleanup.set(carousel, () => {
+    previous.removeEventListener('click', onPrevious);
+    next.removeEventListener('click', onNext);
+    window.removeEventListener('resize', render);
+  });
   render();
 });
+window.initializeNewsCarousels();

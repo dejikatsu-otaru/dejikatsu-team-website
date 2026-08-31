@@ -1,0 +1,20 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "dejikatsu-team-website",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-08-31",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "CMS_DB",
+      "database_name": "551309d6-b46b-4ad8-8b3a-f5340ce45f29",
+      "database_id": "551309d6-b46b-4ad8-8b3a-f5340ce45f29",
+      "preview_database_id": "dejikatsu-cms-local",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}
