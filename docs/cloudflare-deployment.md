@@ -3,6 +3,7 @@
 対象:
 
 - Pages project: `dejikatsu-team-website`
+- D1 database name: `dejikatu-website-cms`
 - D1 database ID: `551309d6-b46b-4ad8-8b3a-f5340ce45f29`
 - Binding variable: `CMS_DB`
 - Production branch: `main`
@@ -134,9 +135,8 @@ Cloudflare Dashboardで
 CMS_DB
 ```
 
-`wrangler.jsonc` の `database_id` はUUIDである。`database_name` はDashboardに表示される実名と
-完全一致させる。今回提供された値では名前もUUID文字列になっているが、Dashboard上の名前が
-別なら、push前に `database_name` だけを実名へ直す。IDは変更しない。
+`wrangler.jsonc` の `database_id` はUUIDである。`database_name` はDashboardに表示される実名
+`dejikatu-website-cms` と完全一致させる。IDは変更しない。
 
 ### PreviewとProductionが同じD1であることへの注意
 

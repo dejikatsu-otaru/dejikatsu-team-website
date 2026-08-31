@@ -7,7 +7,7 @@
   "d1_databases": [
     {
       "binding": "CMS_DB",
-      "database_name": "551309d6-b46b-4ad8-8b3a-f5340ce45f29",
+      "database_name": "dejikatu-website-cms",
       "database_id": "551309d6-b46b-4ad8-8b3a-f5340ce45f29",
       "preview_database_id": "dejikatsu-cms-local",
       "migrations_dir": "migrations"
