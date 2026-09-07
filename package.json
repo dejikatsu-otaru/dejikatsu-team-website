@@ -14,6 +14,7 @@
     "db:list:local": "wrangler d1 migrations list CMS_DB --local"
   },
   "dependencies": {
+    "@jsquash/webp": "1.5.0",
     "marked": "18.0.11",
     "sanitize-html": "2.17.7"
   },

@@ -395,6 +395,10 @@ export function renderBody(source: string, format: "markdown" | "html"): string 
     allowedSchemes: ["https"],
     allowProtocolRelative: false,
     transformTags: {
+      // Browsers produce b/i/div in contenteditable; keep their meaning in our canonical markup.
+      b: "strong", i: "em", div: "p",
+      // The article title owns h1. Markdown headings remain headings within the article body.
+      h1: "h2", h5: "h4", h6: "h4",
       a: (_tagName, attributes) => {
         const href = safeBodyHref(attributes.href ?? "");
         if (!href) return { tagName: "span", attribs: {} };

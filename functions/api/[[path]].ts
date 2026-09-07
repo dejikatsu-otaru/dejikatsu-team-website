@@ -333,7 +333,9 @@ async function ownedArticle(env: Env, actor: Actor, id: string): Promise<Article
 
 function bodyMediaIds(html: string | null): string[] {
   if (!html) return [];
-  return [...new Set([...html.matchAll(/\/api\/media\/([0-9a-f-]{36})/gi)].map((match) => match[1]!))].slice(0, 30);
+  const ids = [...new Set([...html.matchAll(/\/api\/media\/([0-9a-f-]{36})/gi)].map((match) => match[1]!))];
+  if (ids.length > 30) throw new HttpError(400, "too_many_images", "本文内の画像は30種類以内にしてください。");
+  return ids;
 }
 
 async function validateMediaAccess(env: Env, actor: Actor, ids: Array<string | null>): Promise<void> {
@@ -1119,7 +1121,7 @@ async function publicMedia(ctx: Ctx, id: string): Promise<Response> {
   if (ctx.request.method !== "GET" && ctx.request.method !== "HEAD") methodNotAllowed(["GET", "HEAD"]);
   if (!UUID_PATTERN.test(id)) throw new HttpError(404, "not_found", "画像が見つかりません。");
   const row = await ctx.env.CMS_DB.prepare(
-    `SELECT m.id, m.owner_user_id, m.mime_type, m.sha256, m.data,
+    `SELECT m.id, m.owner_user_id, m.mime_type, m.sha256, m.byte_size, m.data,
        EXISTS(
          SELECT 1 FROM cms_articles a
          LEFT JOIN cms_article_media am ON am.article_id = a.id
@@ -1143,7 +1145,16 @@ async function publicMedia(ctx: Ctx, id: string): Promise<Response> {
     etag: `"${String(row.sha256)}"`,
   });
   if (ctx.request.headers.get("if-none-match") === headers.get("etag")) return new Response(null, { status: 304, headers });
-  return new Response(ctx.request.method === "HEAD" ? null : row.data as BodyInit, { headers });
+  // D1 reads BLOB columns as number arrays, not a Response-compatible binary body.
+  // A TypeScript cast does not perform that conversion at runtime.
+  const bytes = Array.isArray(row.data) ? new Uint8Array(row.data) : row.data;
+  if (!(bytes instanceof ArrayBuffer) && !ArrayBuffer.isView(bytes)) {
+    throw new HttpError(500, "invalid_image_data", "画像を読み込めませんでした。");
+  }
+  if (bytes.byteLength !== Number(row.byte_size)) {
+    throw new HttpError(500, "invalid_image_data", "画像を読み込めませんでした。");
+  }
+  return new Response(ctx.request.method === "HEAD" ? null : bytes as BodyInit, { headers });
 }
 
 async function adminMedia(ctx: Ctx, id: string | undefined, requestId: string): Promise<Response> {

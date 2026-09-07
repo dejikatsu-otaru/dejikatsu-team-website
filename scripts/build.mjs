@@ -31,4 +31,15 @@ for (const directory of ["assets", "admin"]) {
   await cp(source, resolve(output, directory), { recursive: true });
 }
 
+// Use the same pinned Markdown parser in the editor and on the server; no external CDN.
+await cp(resolve(root, "node_modules/marked/lib/marked.umd.js"), resolve(output, "admin/marked.js"));
+const codecOutput = resolve(output, "admin/webp-codec");
+await mkdir(codecOutput, { recursive: true });
+for (const name of ["webp_enc.js", "webp_enc.wasm"]) {
+  await cp(resolve(root, "node_modules/@jsquash/webp/codec/enc", name), resolve(codecOutput, name));
+}
+for (const name of ["meta.js", "LICENSE"]) {
+  await cp(resolve(root, "node_modules/@jsquash/webp", name), resolve(codecOutput, name));
+}
+await cp(resolve(root, "node_modules/@jsquash/webp/codec/LICENSE.codec.md"), resolve(codecOutput, "LICENSE.codec.md"));
 console.log("Static site copied to dist/.");

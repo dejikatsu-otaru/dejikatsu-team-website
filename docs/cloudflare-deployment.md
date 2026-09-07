@@ -153,7 +153,13 @@ Owner作成、記事編集、公開停止、削除、画像upload、user作成�
 ## 3. 暗号化Secretを追加する
 
 **Settings → Variables and Secrets** で、PreviewとProductionの両方へ次を暗号化Secretとして追加する。
-値同士を使い回さない。値はGit、`wrangler.jsonc`、issue、スクリーンショット、チャットへ書かない。
+異なるSecret名同士では値を使い回さない。値はGit、`wrangler.jsonc`、issue、スクリーンショット、チャットへ書かない。
+
+**現在のようにPreviewとProductionが同じD1を共有する場合、両環境の `CMS_PASSWORD_PEPPER` は
+同じ値にする。** 保存済みの認証情報はこの値で保護されるため、環境間で異なる値にすると
+既存アカウントが片方の環境でログインできなくなる。`CMS_AUTH_CHALLENGE_KEY` も共有D1では
+同じ値を設定し、認証試行制限の識別子を一致させる。環境ごとに独立した値を使う場合はD1も分離する。
+既存の値を確認せず上書き・再生成しない。本番切替後は既存Ownerでログインできることを確認する。
 
 ```text
 CMS_BOOTSTRAP_TOKEN=<48文字以上のランダム値>

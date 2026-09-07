@@ -294,23 +294,33 @@
   }
   function command(surface, commandName, value = null) { restoreSelection(surface); document.execCommand(commandName, false, value); saveSelection(); }
   function markdownPreview(source) {
-    const fragment = document.createDocumentFragment();
-    const inline = (text, target) => {
-      const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|\[[^\]]+\]\([^\s)]+\))/g);
-      parts.forEach((part) => {
-        if (part.startsWith('**') && part.endsWith('**')) { const strong = textNode('strong', part.slice(2, -2)); target.append(strong); }
-        else if (part.startsWith('*') && part.endsWith('*')) { const em = textNode('em', part.slice(1, -1)); target.append(em); }
-        else { const match = part.match(/^\[([^\]]+)\]\(([^\s)]+)\)$/); if (match && safeUrl(match[2])) { const a = textNode('a', match[1]); a.href = safeUrl(match[2]); a.rel = 'noopener noreferrer'; target.append(a); } else target.append(document.createTextNode(part)); }
-      });
+    // Parse into an inert template, then rebuild only permitted nodes/attributes.
+    // Never attach marked's raw output to the live document.
+    const template = document.createElement('template');
+    template.innerHTML = window.marked.parse(source, { async: false, gfm: true, breaks: true });
+    const allowed = new Set(['p','br','strong','em','s','del','h2','h3','h4','ul','ol','li','blockquote','a','img','code','pre','hr','span']);
+    const aliases = { b: 'strong', i: 'em', div: 'p', h1: 'h2', h5: 'h4', h6: 'h4' };
+    const appendSafe = (input, output) => {
+      if (input.nodeType === Node.TEXT_NODE) { output.append(document.createTextNode(input.textContent)); return; }
+      if (input.nodeType !== Node.ELEMENT_NODE) return;
+      const original = input.localName;
+      if (['script','style','iframe','object','embed','svg','math','template','noscript','textarea'].includes(original)) return;
+      const tag = aliases[original] || original;
+      if (!allowed.has(tag)) { input.childNodes.forEach(child => appendSafe(child, output)); return; }
+      const node = document.createElement(tag);
+      if (tag === 'a') {
+        const href = safeUrl(input.getAttribute('href') || '');
+        if (href) { node.href = href; node.rel = 'noopener noreferrer'; if (href.startsWith('https:')) node.target = '_blank'; }
+      }
+      if (tag === 'img') {
+        const src = input.getAttribute('src') || ''; const alt = (input.getAttribute('alt') || '').trim();
+        if (!/^\/api\/media\/[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(src) || !alt) return;
+        node.src = src; node.alt = alt.slice(0, 300);
+      }
+      input.childNodes.forEach(child => appendSafe(child, node)); output.append(node);
     };
-    let paragraph = [];
-    const flush = () => { if (!paragraph.length) return; const p = document.createElement('p'); inline(paragraph.join(' '), p); fragment.append(p); paragraph = []; };
-    source.replaceAll('\r\n', '\n').split('\n').forEach((line) => {
-      const heading = line.match(/^(#{1,3})\s+(.+)$/);
-      if (heading) { flush(); const node = document.createElement(`h${heading[1].length}`); inline(heading[2], node); fragment.append(node); }
-      else if (!line.trim()) flush(); else paragraph.push(line.trim());
-    });
-    flush(); return fragment;
+    const fragment = document.createDocumentFragment();
+    template.content.childNodes.forEach(child => appendSafe(child, fragment)); return fragment;
   }
   function updatePreview() { const input = $('[data-markdown-input]'); const preview = $('[data-preview-output]'); if (!input || !preview) return; preview.replaceChildren(markdownPreview(input.value)); }
   function editorHTML(surface) {
@@ -339,17 +349,27 @@
   async function webpImage(file) {
     if (!file?.type.startsWith('image/')) throw new Error('画像ファイルを選択してください。');
     const bitmap = await createImageBitmap(file);
+    try {
     const initial = Math.min(1, 1920 / Math.max(bitmap.width, bitmap.height));
     for (const scale of [initial, Math.min(initial, 1600 / Math.max(bitmap.width, bitmap.height)), Math.min(initial, 1280 / Math.max(bitmap.width, bitmap.height))]) {
       const width = Math.max(1, Math.round(bitmap.width * scale)); const height = Math.max(1, Math.round(bitmap.height * scale));
       const canvas = document.createElement('canvas'); canvas.width = width; canvas.height = height;
-      canvas.getContext('2d', { alpha: false }).drawImage(bitmap, 0, 0, width, height);
+      const context = canvas.getContext('2d', { alpha: false });
+      context.fillStyle = '#fff'; context.fillRect(0, 0, width, height); context.drawImage(bitmap, 0, 0, width, height);
       for (let quality = .9; quality >= .35; quality -= .1) {
-        const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/webp', quality));
+        let blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/webp', quality));
+        const header = blob ? new Uint8Array(await blob.slice(0, 21).arrayBuffer()) : new Uint8Array();
+        const extended = header[12] === 0x56 && header[13] === 0x50 && header[14] === 0x38 && header[15] === 0x58;
+        // WebKit may include ICCP; the server deliberately rejects metadata-bearing images.
+        if (blob?.type !== 'image/webp' || (extended && (header[20] & 0x2e))) {
+          const { encodeWebp } = await import('./webp-fallback.js');
+          blob = await encodeWebp(canvas, quality);
+        }
         if (blob && blob.size <= 1500000) return { file: new File([blob], `${file.name.replace(/\.[^.]+$/, '') || 'image'}.webp`, { type: 'image/webp' }), width, height };
       }
     }
     throw new Error('画像を1.5MB以下に変換できませんでした。より小さい画像を選択してください。');
+    } finally { bitmap.close(); }
   }
   async function uploadMedia(file, alt) {
     const converted = await webpImage(file); const form = new FormData();
@@ -387,6 +407,7 @@
     const existing = Boolean(article?.id);
     const deleted = status === 'deleted';
     const published = status === 'published';
+    $('button[type=submit]', $('[data-article-form]')).textContent = published ? '変更を保存（公開中）' : '下書きを保存';
     $('[data-publish]').classList.toggle('hidden', !existing || deleted || published);
     $('[data-unpublish]').classList.toggle('hidden', !existing || deleted || !published);
     $('[data-soft-delete]').classList.toggle('hidden', !existing || deleted);
@@ -404,7 +425,12 @@
   async function saveArticle() {
     const status = $('[data-status]'); const payload = articlePayload(); setStatus(status, '保存しています…'); await uploadCoverIfNeeded(status); payload.coverMediaId = state.coverMediaId || undefined;
     const result = dataOf(await request(payload.id ? `/api/admin/articles/${encodeURIComponent(payload.id)}` : '/api/admin/articles', json(payload.id ? 'PATCH' : 'POST', payload)));
-    setArticle(result.article || result); setStatus(status, '保存しました。', 'success'); return state.article;
+    setArticle(result.article || result);
+    if (!payload.id && state.article?.id) {
+      const editorUrl = new URL(location.href); editorUrl.searchParams.set('id', state.article.id);
+      history.replaceState(null, '', editorUrl);
+    }
+    setStatus(status, '保存しました。', 'success'); return state.article;
   }
   async function sendArticleAction(action, success) {
     const status = $('[data-status]'); const id = state.article?.id || $('[data-article-form]').elements.articleId.value; if (!id) { setStatus(status, '先に記事を保存してください。', 'error'); return; }
@@ -415,22 +441,56 @@
   async function initEditor() {
     await loadMe(); bindLogout(); const form = $('[data-article-form]'); const status = $('[data-status]'); const surface = $('[data-editor-surface]');
     const markdownInput = $('[data-markdown-input]');
+    const inlineImageField = document.createElement('div'); inlineImageField.className = 'field';
+    const inlineImageLabel = textNode('label', '本文内画像の説明（代替テキスト）'); inlineImageLabel.htmlFor = 'inline-image-alt';
+    const inlineImageAlt = document.createElement('input'); inlineImageAlt.id = 'inline-image-alt'; inlineImageAlt.maxLength = 300;
+    inlineImageField.append(inlineImageLabel, inlineImageAlt, textNode('small', '説明を入力し、本文の挿入位置を選んで「画像を追加」を押してください。本文内は30種類までです。'));
+    surface.insertAdjacentElement('beforebegin', inlineImageField);
     const markdownHelp = document.createElement('small');
-    markdownHelp.textContent = 'Markdown欄に内容がある場合はMarkdown原文を正本として保存し、本文表示を再生成します。上のリッチ本文を正本にする場合は、この欄を空にしてください。';
+    markdownHelp.textContent = 'Markdown欄の入力は自動で本文へ反映します（設定で無効にできます）。本文を直接編集したり装飾・画像を追加すると、変換済みの本文を保存する方式へ切り替わり、Markdown欄は空になります。';
     markdownInput.insertAdjacentElement('afterend', markdownHelp);
+    const useRichBody = () => {
+      if (markdownInput.value) {
+        markdownInput.value = '';
+        $('[data-preview-output]').replaceChildren();
+        setStatus(status, '本文編集に切り替えました。装飾・画像を含む現在の本文を保存します。');
+      }
+      state.dirty = true;
+    };
     const id = new URLSearchParams(location.search).get('id');
     if (id) { try { const result = dataOf(await request(`/api/admin/articles/${encodeURIComponent(id)}`)); setArticle(result.article || result); } catch (error) { setStatus(status, errorMessage(error), 'error'); } }
     else $('[data-actions-editor]').replaceChildren();
     form.addEventListener('input', () => { state.dirty = true; });
     form.addEventListener('change', () => { state.dirty = true; });
     window.addEventListener('beforeunload', (event) => { if (state.dirty) { event.preventDefault(); event.returnValue = ''; } });
-    surface.addEventListener('keyup', saveSelection); surface.addEventListener('mouseup', saveSelection); surface.addEventListener('input', saveSelection);
-    $$('[data-format]').forEach((button) => button.addEventListener('mousedown', (event) => { event.preventDefault(); const format = button.dataset.format; if (format === 'h2' || format === 'h3') command(surface, 'formatBlock', format); else if (['orange','green','blue'].includes(format)) { const span = document.createElement('span'); span.dataset.brandColor = format; const selection = window.getSelection(); if (selection?.rangeCount && !selection.isCollapsed) { const range = selection.getRangeAt(0); span.append(range.extractContents()); range.insertNode(span); } } else if (format === 'link') { const value = prompt('リンク先URLを入力してください。'); if (value && safeUrl(value)) command(surface, 'createLink', safeUrl(value)); } else command(surface, format); state.dirty = true; saveSelection(); }));
+    surface.addEventListener('keyup', saveSelection); surface.addEventListener('mouseup', saveSelection); surface.addEventListener('input', () => { useRichBody(); saveSelection(); });
+    $$('[data-format]').forEach((button) => {
+      button.addEventListener('mousedown', (event) => event.preventDefault());
+      button.addEventListener('click', () => {
+        const format = button.dataset.format;
+        restoreSelection(surface);
+        if (format === 'h2' || format === 'h3') command(surface, 'formatBlock', format);
+        else if (['orange','green','blue'].includes(format)) {
+          const selection = window.getSelection();
+          if (!selection?.rangeCount || selection.isCollapsed) return;
+          const span = document.createElement('span'); span.dataset.brandColor = format;
+          const range = selection.getRangeAt(0); span.append(range.extractContents()); range.insertNode(span);
+        } else if (format === 'link') {
+          const value = prompt('リンク先URLを入力してください。');
+          if (!value || !safeUrl(value)) return;
+          command(surface, 'createLink', safeUrl(value));
+        } else command(surface, format);
+        useRichBody(); saveSelection();
+      });
+    });
     $('[data-markdown-apply]').addEventListener('click', () => { surface.replaceChildren(markdownPreview($('[data-markdown-input]').value)); state.dirty = true; saveSelection(); });
     $('[data-preview]').addEventListener('click', updatePreview); $('[data-markdown-input]').addEventListener('input', () => { if ($('[data-markdown-toggle]').checked) { updatePreview(); surface.replaceChildren(markdownPreview($('[data-markdown-input]').value)); saveSelection(); } });
     $('[data-add-action]').addEventListener('click', () => { $('[data-actions-editor]').append(actionRow()); state.dirty = true; });
-    $('[data-insert-image]').addEventListener('click', () => $('[data-inline-image]').click());
-    $('[data-inline-image]').addEventListener('change', async (event) => { const file = event.target.files[0]; if (!file) return; const alt = prompt('画像の説明（代替テキスト）を入力してください。'); if (!alt?.trim()) { setStatus(status, '画像を追加するには、画像の説明（代替テキスト）が必要です。', 'error'); event.target.value = ''; return; } try { setStatus(status, '記事内画像を変換・保存しています…'); const media = await uploadMedia(file, alt.trim()); const image = document.createElement('img'); image.src = media.url; image.alt = alt.trim(); image.dataset.mediaId = media.id; insertNode(surface, image); state.dirty = true; setStatus(status, '画像を本文に追加しました。', 'success'); } catch (error) { setStatus(status, errorMessage(error), 'error'); } finally { event.target.value = ''; } });
+    $('[data-insert-image]').addEventListener('click', () => {
+      if (!inlineImageAlt.value.trim()) { setStatus(status, '画像を追加するには、画像の説明（代替テキスト）が必要です。', 'error'); inlineImageAlt.focus(); return; }
+      $('[data-inline-image]').click();
+    });
+    $('[data-inline-image]').addEventListener('change', async (event) => { const file = event.target.files[0]; if (!file) return; const alt = inlineImageAlt.value.trim(); if (!alt) { setStatus(status, '画像を追加するには、画像の説明（代替テキスト）が必要です。', 'error'); event.target.value = ''; return; } try { setStatus(status, '記事内画像を変換・保存しています…'); const media = await uploadMedia(file, alt); const image = document.createElement('img'); image.src = media.url; image.alt = alt; image.dataset.mediaId = media.id; insertNode(surface, image); useRichBody(); setStatus(status, '画像を本文に追加しました。', 'success'); } catch (error) { setStatus(status, errorMessage(error), 'error'); } finally { event.target.value = ''; } });
     $('#cover-file').addEventListener('change', (event) => { state.coverFile = event.target.files[0] || null; setStatus($('[data-cover-status]'), state.coverFile ? '保存時にWebPへ変換してアップロードします。' : ''); });
     form.addEventListener('submit', async (event) => { event.preventDefault(); const button = $('button[type=submit]', form); button.disabled = true; try { await saveArticle(); } catch (error) { setStatus(status, errorMessage(error), 'error'); } finally { button.disabled = false; } });
     $('[data-publish]').addEventListener('click', async () => { try { await saveArticle(); await sendArticleAction('/publish', '公開しました。'); } catch (error) { setStatus(status, errorMessage(error), 'error'); } });

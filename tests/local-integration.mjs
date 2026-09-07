@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 
 const base = process.env.CMS_TEST_BASE_URL || "http://127.0.0.1:8788";
+if (!['localhost', '127.0.0.1', '[::1]'].includes(new URL(base).hostname)) {
+  throw new Error('Synthetic integration tests may only run against a local virtual D1 server.');
+}
 const bootstrapToken = "local-integration-bootstrap-token-not-for-production-2026";
 const iterations = 600_000;
 const ownerCredentials = { loginId: "owner-local", password: "LocalIntegrationOwner!2026" };
@@ -374,6 +377,7 @@ async function main() {
   assert.equal(publicImage.status, 200);
   assert.equal(publicImage.headers.get("content-type"), "image/webp");
   assert.match(publicImage.headers.get("cache-control") ?? "", /no-store/u);
+  assert.deepEqual(new Uint8Array(await publicImage.arrayBuffer()), syntheticWebp(), 'D1 BLOB must be served byte-for-byte');
   await transition(owner, mediaArticle.id, "unpublish", "unpublished");
   await call(`/api/media/${coverMedia.id}`, { expected: 401 });
   await softDelete(owner, mediaArticle.id);
@@ -397,6 +401,29 @@ async function main() {
     markdownAutoConvert: false,
     actions: [],
   });
+  const tooManyImages = Array.from({ length: 31 }, () => `<img src="/api/media/${crypto.randomUUID()}" alt="合成画像">`).join('');
+  const articleIdsBeforeImageLimit = async () => {
+    const ids = []; let offset = 0;
+    do {
+      const page = (await call(`/api/admin/articles?limit=20&offset=${offset}`, { cookie: owner.cookie })).data;
+      ids.push(...page.articles.map(article => article.id));
+      if (!page.hasMore) return ids.sort();
+      offset = page.nextOffset;
+    } while (true);
+  };
+  const idsBeforeImageLimit = await articleIdsBeforeImageLimit();
+  for (const method of ['POST', 'PATCH']) {
+    const rejected = await call(method === 'POST' ? '/api/admin/articles' : `/api/admin/articles/${ownerArticle.id}`, {
+      method, cookie: owner.cookie, csrf: owner.csrf,
+      payload: { ...articlePatch('画像数上限'), bodyHtml: tooManyImages }, expected: 400,
+    });
+    assert.equal(rejected.error.code, 'too_many_images');
+  }
+  const unchangedAfterImageLimit = (await call(`/api/admin/articles/${ownerArticle.id}`, { cookie: owner.cookie })).data.article;
+  assert.equal(unchangedAfterImageLimit.version, ownerArticle.version);
+  assert.equal(unchangedAfterImageLimit.bodyHtml, ownerArticle.bodyHtml);
+  assert.deepEqual(await articleIdsBeforeImageLimit(), idsBeforeImageLimit);
+  checks.push('31 distinct inline images rejected before create or update without partial save');
   const articlePatchRace = await Promise.all([
     call(`/api/admin/articles/${ownerArticle.id}`, {
       method: "PATCH", cookie: owner.cookie, csrf: owner.csrf,

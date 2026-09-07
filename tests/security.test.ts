@@ -49,6 +49,15 @@ function testEnv(overrides: Partial<Env> = {}): Env {
 }
 
 describe("CMS security helpers", () => {
+  it("preserves browser toolbar formatting, paragraphs, and Markdown headings", () => {
+    expect(renderBody('<div><b>太字</b><i>斜体</i></div><div>次の段落</div>', 'html'))
+      .toBe('<p><strong>太字</strong><em>斜体</em></p><p>次の段落</p>');
+    expect(renderBody('# 見出し\n\n- 項目1\n- 項目2\n\n###### 小見出し', 'markdown'))
+      .toContain('<h2>見出し</h2>');
+    expect(renderBody('###### 小見出し', 'markdown')).toContain('<h4>小見出し</h4>');
+    expect(renderBody('<b onclick="alert(1)" style="color:red">太字</b>', 'html'))
+      .toBe('<strong>太字</strong>');
+  });
   it("stores only a pepper-protected browser verifier and supports rotation", async () => {
     const verifier = "A".repeat(43);
     const current = testEnv();
